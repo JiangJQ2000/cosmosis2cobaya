@@ -1,0 +1,253 @@
+stop_at_error: True
+timing: True
+theory:
+  cosmosis2cobaya.boltzmann:
+    zmid: 2.
+    nz_mid: 100
+    zmax: 6.
+    nz: 150
+    renames_output:
+      matter_power_lin: matter_power_lin__0
+      matter_power_nl: matter_power_nl__0
+  cosmosis2cobaya.extrapolate:
+    renames_input:
+      matter_power_lin: matter_power_lin__0
+      matter_power_nl: matter_power_nl__0
+  cosmosis2cobaya.correlated_dz_priors:
+    renames_output:
+      nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
+  cosmosis2cobaya.fits_nz_kids:
+  cosmosis2cobaya.photoz_bias_kids:
+    renames_input:
+      nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
+    renames_output:
+      nz_source_kids: nz_source_kids__1
+  cosmosis2cobaya.fast_pt:
+  cosmosis2cobaya.IA:
+  cosmosis2cobaya.pk_to_cl_kids:
+    renames_input:
+      nz_source_kids: nz_source_kids__1
+  cosmosis2cobaya.add_intrinsic:
+    renames_output:
+      shear_cl: shear_cl__1
+  cosmosis2cobaya.cosebis:
+    renames_input:
+      shear_cl: shear_cl__1
+  camb:
+    path: global
+    extra_args:
+      halofit_version: mead2020_feedback
+      neutrino_hierarchy: normal
+likelihood:
+  cosmosis2cobaya.cosebis_like:
+params:
+  _cosmosis2cobaya._dummy: -8848
+  intrinsic_alignment_parameters:
+    derived: false
+    value: 'lambda intrinsic_alignment_parameters__z_piv,intrinsic_alignment_parameters__a1,intrinsic_alignment_parameters__a2,intrinsic_alignment_parameters__alpha1,intrinsic_alignment_parameters__alpha2,intrinsic_alignment_parameters__bias_ta:
+      {''z_piv'':intrinsic_alignment_parameters__z_piv,''a1'':intrinsic_alignment_parameters__a1,''a2'':intrinsic_alignment_parameters__a2,''alpha1'':intrinsic_alignment_parameters__alpha1,''alpha2'':intrinsic_alignment_parameters__alpha2,''bias_ta'':intrinsic_alignment_parameters__bias_ta}'
+  intrinsic_alignment_parameters__a1:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  intrinsic_alignment_parameters__a2: 0.0
+  intrinsic_alignment_parameters__alpha1:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  intrinsic_alignment_parameters__alpha2: 0.0
+  intrinsic_alignment_parameters__bias_ta: 0.0
+  intrinsic_alignment_parameters__z_piv: 0.62
+  nofz_shifts_kids:
+    derived: false
+    value: 'lambda nofz_shifts_kids__uncorr_bias_1,nofz_shifts_kids__uncorr_bias_2,nofz_shifts_kids__uncorr_bias_3,nofz_shifts_kids__uncorr_bias_4,nofz_shifts_kids__uncorr_bias_5:
+      {''uncorr_bias_1'':nofz_shifts_kids__uncorr_bias_1,''uncorr_bias_2'':nofz_shifts_kids__uncorr_bias_2,''uncorr_bias_3'':nofz_shifts_kids__uncorr_bias_3,''uncorr_bias_4'':nofz_shifts_kids__uncorr_bias_4,''uncorr_bias_5'':nofz_shifts_kids__uncorr_bias_5}'
+  nofz_shifts_kids__uncorr_bias_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 1.0
+    ref: 0.0
+  nofz_shifts_kids__uncorr_bias_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.181
+      scale: 1.0
+    ref: -0.181
+  nofz_shifts_kids__uncorr_bias_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: -1.11
+      scale: 1.0
+    ref: -1.11
+  nofz_shifts_kids__uncorr_bias_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: -1.395
+      scale: 1.0
+    ref: -1.395
+  nofz_shifts_kids__uncorr_bias_5:
+    drop: true
+    prior:
+      dist: norm
+      loc: 1.265
+      scale: 1.0
+    ref: 1.265
+  mnu:
+    prior:
+      min: 0.055
+      max: 0.6
+    ref: 0.07740741
+    proposal: 0.03
+    latex: \sum m_\nu
+  ns:
+    prior:
+      min: 0.8
+      max: 1.2
+    ref:
+      dist: norm
+      loc: 0.965
+      scale: 0.004
+    proposal: 0.002
+    latex: n_\mathrm{s}
+  H0:
+    prior:
+      min: 20
+      max: 100
+    ref:
+      dist: norm
+      loc: 67
+      scale: 2
+    proposal: 2
+    latex: H_0
+  omegabh2:
+    prior:
+      min: 0.005
+      max: 0.1
+    ref:
+      dist: norm
+      loc: 0.0224
+      scale: 0.0001
+    proposal: 0.0001
+    latex: \Omega_\mathrm{b} h^2
+  omegach2:
+    prior:
+      min: 0.001
+      max: 0.99
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+    proposal: 0.0005
+    latex: \Omega_\mathrm{c} h^2
+  omegam:
+    latex: \Omega_\mathrm{m}
+  omegamh2:
+    derived: 'lambda omegam, H0: omegam*(H0/100)**2'
+    latex: \Omega_\mathrm{m} h^2
+  omegal:
+    latex: \Omega_\Lambda
+  S_8:
+    prior:
+      min: 0.1
+      max: 1.3
+    ref: 0.7567464875805479
+    latex: S_8
+    drop: true
+  sigma8:
+    latex: \sigma_8
+    value: 'lambda S_8, omegabh2, omegach2, mnu, H0: S_8 / np.sqrt((omegabh2 + omegach2 + mnu * ((3.044/3)**0.75 / 94.06410581217612)) / (H0/100)**2 / 0.3)'
+  YHe:
+    latex: Y_\mathrm{P}
+  tau:
+    prior:
+      min: 0.01
+      max: 0.8
+    ref:
+      dist: norm
+      loc: 0.055
+      scale: 0.006
+    proposal: 0.003
+    latex: \tau_\mathrm{reio}
+  zrei:
+    latex: z_\mathrm{re}
+  # sigma8:
+  #   latex: \sigma_8
+  s8h5:
+    derived: 'lambda sigma8, H0: sigma8*(H0*1e-2)**(-0.5)'
+    latex: \sigma_8/h^{0.5}
+  s8omegamp5:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.5'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.5}
+  s8omegamp25:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.25'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.25}
+  S8:
+    derived: 'lambda sigma8, omegam: sigma8*np.sqrt(omegam/0.3)'
+    latex: S_8
+  A:
+    derived: 'lambda As: 1e9*As'
+    latex: 10^9 A_\mathrm{s}
+  clamp:
+    derived: 'lambda As, tau: 1e9*As*np.exp(-2*tau)'
+    latex: 10^9 A_\mathrm{s} e^{-2\tau}
+  age:
+    latex: '{\rm{Age}}/\mathrm{Gyr}'
+  rdrag:
+    latex: r_\mathrm{drag}
+  betaBAO:
+    derived: 'lambda rdrag,H0: 299792.458 / rdrag / H0'
+    latex: \beta_\mathrm{BAO}
+  # rs_star:
+  #   latex: r^*
+  #   renames:
+  # da_star:
+  #   latex: D_A^*
+  # z_star:
+  #   latex: z^*
+  # theta_star_1e2:
+  #   derived: 'lambda rs_star,da_star,z_star: 100*rs_star/da_star/(1+z_star)'
+  #   latex: 100\theta^*
+  # rs_rec:
+  #   latex: r_\mathrm{s rec}
+  # da_rec:
+  #   latex: D_{A \mathrm{rec}}
+  # z_rec:
+  #   latex: z_\mathrm{rec}
+  # theta_s_1e2:
+  #   derived: 'lambda rs_rec,da_rec,z_rec: 100*rs_rec/da_rec/(1+z_rec)'
+  #   latex: 100\theta_\mathrm{s}
+  HMCode_logT_AGN:
+    prior:
+      min: 7.3
+      max: 8.0
+    ref: 7.8
+sampler:
+  # mcmc:
+  #   covmat: auto
+  evaluate:
+    override:
+      nofz_shifts_kids__uncorr_bias_1: 0
+      nofz_shifts_kids__uncorr_bias_2: -0.181
+      nofz_shifts_kids__uncorr_bias_3: -1.11
+      nofz_shifts_kids__uncorr_bias_4: -1.395
+      nofz_shifts_kids__uncorr_bias_5: 1.265
+      intrinsic_alignment_parameters__a1: 0
+      intrinsic_alignment_parameters__alpha1: 0
+      HMCode_logT_AGN: 7.8
+      omegach2: 0.11812972217650827
+      omegabh2: 0.025939374402978773
+      H0: 76.66550530735352
+      ns: 0.9007697522848085
+      S_8: 0.7567464875805479
+      mnu: 0.07740741
+      tau: 0.0697186
+output: chains/test

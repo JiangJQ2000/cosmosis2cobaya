@@ -1,0 +1,423 @@
+stop_at_error: True
+timing: True
+theory:
+  cosmosis2cobaya.boltzmann:
+    zmid: 2.
+    nz_mid: 100
+    zmax: 6.
+    nz: 150
+    renames_output:
+      matter_power_lin: matter_power_lin__0
+      matter_power_nl: matter_power_nl__0
+  cosmosis2cobaya.extrapolate:
+    renames_input:
+      matter_power_lin: matter_power_lin__0
+      matter_power_nl: matter_power_nl__0
+  cosmosis2cobaya.fits_nz_des:
+  cosmosis2cobaya.correlated_dz_priors:
+    renames_output:
+      nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
+  cosmosis2cobaya.photoz_bias_des:
+    renames_output:
+      nz_source_des: nz_source_des__after__photoz_bias_des
+  cosmosis2cobaya.photoz_bias_kids:
+    renames_input:
+      nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
+    renames_output:
+      nz_source_kids: nz_source_kids__1
+  cosmosis2cobaya.fits_nz_kids:
+  cosmosis2cobaya.fast_pt:
+  cosmosis2cobaya.choose_des_ia:
+    renames_output:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__des
+  cosmosis2cobaya.IA: # DES
+    renames_input:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__des
+    renames_output:
+      intrinsic_power: intrinsic_power__des
+      intrinsic_power_ee: intrinsic_power_ee__des
+      intrinsic_power_bb: intrinsic_power_bb__des
+      matter_intrinsic_power: matter_intrinsic_power__des
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__des__after__IA
+  cosmosis2cobaya.pk_to_cl_des:
+    renames_input:
+      intrinsic_power: intrinsic_power__des
+      intrinsic_power_ee: intrinsic_power_ee__des
+      intrinsic_power_bb: intrinsic_power_bb__des
+      matter_intrinsic_power: matter_intrinsic_power__des
+      nz_source_des: nz_source_des__after__photoz_bias_des
+    renames_output:
+      shear_cl_gi: shear_cl_gi__des
+      shear_cl_ii: shear_cl_ii__des
+      shear_cl_bb: shear_cl_bb__des
+      shear_cl: shear_cl__des
+  cosmosis2cobaya.add_intrinsic:
+    renames_input:
+      shear_cl_gi: shear_cl_gi__des
+      shear_cl_ii: shear_cl_ii__des
+      shear_cl_bb: shear_cl_bb__des
+      shear_cl: shear_cl__des
+    renames_output:
+      shear_cl: shear_cl__des_1
+  cosmosis2cobaya.2pt_shear.cl_to_xi_interface:
+    renames_input:
+      shear_cl: shear_cl__des_1
+      shear_cl_bb: shear_cl_bb__des
+  cosmosis2cobaya.shear_m_bias:
+    do_auto: True
+    do_cross: False
+    do_cmbcross: False
+    renames_output:
+      shear_xi_minus: shear_xi_minus__after__shear_m_bias
+      shear_xi_plus: shear_xi_plus__after__shear_m_bias
+  cosmosis2cobaya.choose_kids_ia:
+    renames_output:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids
+  cosmosis2cobaya.IA.IA: # KiDS, trick to load second one
+    renames_input:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids
+    renames_output:
+      intrinsic_power: intrinsic_power__kids
+      intrinsic_power_ee: intrinsic_power_ee__kids
+      intrinsic_power_bb: intrinsic_power_bb__kids
+      matter_intrinsic_power: matter_intrinsic_power__kids
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids__after__IA
+  cosmosis2cobaya.pk_to_cl_kids:
+    renames_input:
+      nz_source_kids: nz_source_kids__1
+      intrinsic_power: intrinsic_power__kids
+      intrinsic_power_ee: intrinsic_power_ee__kids
+      intrinsic_power_bb: intrinsic_power_bb__kids
+      matter_intrinsic_power: matter_intrinsic_power__kids
+    renames_output:
+      shear_cl_gi: shear_cl_gi__kids
+      shear_cl_ii: shear_cl_ii__kids
+      shear_cl_bb: shear_cl_bb__kids
+      shear_cl: shear_cl__kids
+  cosmosis2cobaya.add_intrinsic.add_intrinsic:
+    renames_input:
+      shear_cl_gi: shear_cl_gi__kids
+      shear_cl_ii: shear_cl_ii__kids
+      shear_cl_bb: shear_cl_bb__kids
+      shear_cl: shear_cl__kids
+    renames_output:
+      shear_cl: shear_cl__kids_1
+  cosmosis2cobaya.cosebis:
+    renames_input:
+      shear_cl: shear_cl__kids_1
+  camb:
+    path: global
+    extra_args:
+      halofit_version: mead2020_feedback
+      neutrino_hierarchy: normal
+likelihood:
+  cosmosis2cobaya.2pt_like.TwoPointLikelihood:
+    renames_input:
+      shear_xi_minus: shear_xi_minus__after__shear_m_bias
+      shear_xi_plus: shear_xi_plus__after__shear_m_bias
+  cosmosis2cobaya.cosebis_like:
+params:
+  _cosmosis2cobaya._dummy: -8848
+  intrinsic_alignment_parameters:
+    derived: false
+    value: 'lambda intrinsic_alignment_parameters__z_piv,intrinsic_alignment_parameters__a1_des,intrinsic_alignment_parameters__a2_des,intrinsic_alignment_parameters__alpha1_des,intrinsic_alignment_parameters__alpha2_des,intrinsic_alignment_parameters__bias_ta_des,intrinsic_alignment_parameters__a1_kids,intrinsic_alignment_parameters__a2_kids,intrinsic_alignment_parameters__alpha1_kids,intrinsic_alignment_parameters__alpha2_kids,intrinsic_alignment_parameters__bias_ta_kids:
+      {''z_piv'':intrinsic_alignment_parameters__z_piv,''a1_des'':intrinsic_alignment_parameters__a1_des,''a2_des'':intrinsic_alignment_parameters__a2_des,''alpha1_des'':intrinsic_alignment_parameters__alpha1_des,''alpha2_des'':intrinsic_alignment_parameters__alpha2_des,''bias_ta_des'':intrinsic_alignment_parameters__bias_ta_des,''a1_kids'':intrinsic_alignment_parameters__a1_kids,''a2_kids'':intrinsic_alignment_parameters__a2_kids,''alpha1_kids'':intrinsic_alignment_parameters__alpha1_kids,''alpha2_kids'':intrinsic_alignment_parameters__alpha2_kids,''bias_ta_kids'':intrinsic_alignment_parameters__bias_ta_kids,}'
+  # intrinsic_alignment_parameters__a1: 0.0
+  intrinsic_alignment_parameters__a1_des:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  intrinsic_alignment_parameters__a1_kids:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  # intrinsic_alignment_parameters__a2: 0.0
+  intrinsic_alignment_parameters__a2_des: 0.0
+  intrinsic_alignment_parameters__a2_kids: 0.0
+  # intrinsic_alignment_parameters__alpha1: 0.0
+  intrinsic_alignment_parameters__alpha1_des:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  intrinsic_alignment_parameters__alpha1_kids:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.0
+  # intrinsic_alignment_parameters__alpha2: 0.0
+  intrinsic_alignment_parameters__alpha2_des: 0.0
+  intrinsic_alignment_parameters__alpha2_kids: 0.0
+  # intrinsic_alignment_parameters__bias_ta: 0.0
+  intrinsic_alignment_parameters__bias_ta_des: 0.0
+  intrinsic_alignment_parameters__bias_ta_kids: 0.0
+  intrinsic_alignment_parameters__z_piv: 0.62
+  nofz_shifts_kids:
+    derived: false
+    value: 'lambda nofz_shifts_kids__uncorr_bias_1,nofz_shifts_kids__uncorr_bias_2,nofz_shifts_kids__uncorr_bias_3,nofz_shifts_kids__uncorr_bias_4,nofz_shifts_kids__uncorr_bias_5:
+      {''uncorr_bias_1'':nofz_shifts_kids__uncorr_bias_1,''uncorr_bias_2'':nofz_shifts_kids__uncorr_bias_2,''uncorr_bias_3'':nofz_shifts_kids__uncorr_bias_3,''uncorr_bias_4'':nofz_shifts_kids__uncorr_bias_4,''uncorr_bias_5'':nofz_shifts_kids__uncorr_bias_5}'
+  nofz_shifts_kids__uncorr_bias_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 1.0
+    ref: 0.0
+  nofz_shifts_kids__uncorr_bias_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.181
+      scale: 1.0
+    ref: -0.181
+  nofz_shifts_kids__uncorr_bias_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: -1.11
+      scale: 1.0
+    ref: -1.11
+  nofz_shifts_kids__uncorr_bias_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: -1.395
+      scale: 1.0
+    ref: -1.395
+  nofz_shifts_kids__uncorr_bias_5:
+    drop: true
+    prior:
+      dist: norm
+      loc: 1.265
+      scale: 1.0
+    ref: 1.265
+  shear_calibration_parameters:
+    derived: false
+    value: 'lambda shear_calibration_parameters__m1,shear_calibration_parameters__m2,shear_calibration_parameters__m3,shear_calibration_parameters__m4:
+      {''m1'':shear_calibration_parameters__m1,''m2'':shear_calibration_parameters__m2,''m3'':shear_calibration_parameters__m3,''m4'':shear_calibration_parameters__m4}'
+  shear_calibration_parameters__m1:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0063
+      scale: 0.0091
+    ref: 0.0
+  shear_calibration_parameters__m2:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0198
+      scale: 0.0078
+    ref: 0.0
+  shear_calibration_parameters__m3:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0241
+      scale: 0.0076
+    ref: 0.0
+  shear_calibration_parameters__m4:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0369
+      scale: 0.0076
+    ref: 0.0
+  wl_photoz_errors_des:
+    derived: false
+    value: 'lambda wl_photoz_errors_des__bias_1,wl_photoz_errors_des__bias_2,wl_photoz_errors_des__bias_3,wl_photoz_errors_des__bias_4:
+      {''bias_1'':wl_photoz_errors_des__bias_1,''bias_2'':wl_photoz_errors_des__bias_2,''bias_3'':wl_photoz_errors_des__bias_3,''bias_4'':wl_photoz_errors_des__bias_4}'
+  wl_photoz_errors_des__bias_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.018
+    ref: 0.0
+  wl_photoz_errors_des__bias_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.015
+    ref: 0.0
+  wl_photoz_errors_des__bias_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.011
+    ref: 0.0
+  wl_photoz_errors_des__bias_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.017
+    ref: 0.0
+  mnu:
+    prior:
+      min: 0.055
+      max: 0.6
+    ref: 0.07740741
+    proposal: 0.03
+    latex: \sum m_\nu
+  ns:
+    prior:
+      min: 0.8
+      max: 1.2
+    ref:
+      dist: norm
+      loc: 0.965
+      scale: 0.004
+    proposal: 0.002
+    latex: n_\mathrm{s}
+  H0:
+    prior:
+      min: 20
+      max: 100
+    ref:
+      dist: norm
+      loc: 67
+      scale: 2
+    proposal: 2
+    latex: H_0
+  omegabh2:
+    prior:
+      min: 0.005
+      max: 0.1
+    ref:
+      dist: norm
+      loc: 0.0224
+      scale: 0.0001
+    proposal: 0.0001
+    latex: \Omega_\mathrm{b} h^2
+  omegach2:
+    prior:
+      min: 0.001
+      max: 0.99
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+    proposal: 0.0005
+    latex: \Omega_\mathrm{c} h^2
+  omegam:
+    latex: \Omega_\mathrm{m}
+  omegamh2:
+    derived: 'lambda omegam, H0: omegam*(H0/100)**2'
+    latex: \Omega_\mathrm{m} h^2
+  omegal:
+    latex: \Omega_\Lambda
+  S_8: # only included baryons and CDM
+    prior:
+      min: 0.1
+      max: 1.3
+    ref: 0.7567464875805479
+    latex: S_8
+    drop: true
+  sigma8:
+    latex: \sigma_8
+    value: 'lambda S_8, omegabh2, omegach2, mnu, H0: S_8 / np.sqrt((omegabh2 + omegach2 + mnu * ((3.044/3)**0.75 / 94.06410581217612)) / (H0/100)**2 / 0.3)'
+  YHe:
+    latex: Y_\mathrm{P}
+  tau:
+    prior:
+      min: 0.01
+      max: 0.8
+    ref:
+      dist: norm
+      loc: 0.055
+      scale: 0.006
+    proposal: 0.003
+    latex: \tau_\mathrm{reio}
+  zrei:
+    latex: z_\mathrm{re}
+  # sigma8:
+  #   latex: \sigma_8
+  s8h5:
+    derived: 'lambda sigma8, H0: sigma8*(H0*1e-2)**(-0.5)'
+    latex: \sigma_8/h^{0.5}
+  s8omegamp5:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.5'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.5}
+  s8omegamp25:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.25'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.25}
+  S8:
+    derived: 'lambda sigma8, omegam: sigma8*np.sqrt(omegam/0.3)'
+    latex: S_8
+  A:
+    derived: 'lambda As: 1e9*As'
+    latex: 10^9 A_\mathrm{s}
+  clamp:
+    derived: 'lambda As, tau: 1e9*As*np.exp(-2*tau)'
+    latex: 10^9 A_\mathrm{s} e^{-2\tau}
+  age:
+    latex: '{\rm{Age}}/\mathrm{Gyr}'
+  rdrag:
+    latex: r_\mathrm{drag}
+  betaBAO:
+    derived: 'lambda rdrag,H0: 299792.458 / rdrag / H0'
+    latex: \beta_\mathrm{BAO}
+  # rs_star:
+  #   latex: r^*
+  #   renames:
+  # da_star:
+  #   latex: D_A^*
+  # z_star:
+  #   latex: z^*
+  # theta_star_1e2:
+  #   derived: 'lambda rs_star,da_star,z_star: 100*rs_star/da_star/(1+z_star)'
+  #   latex: 100\theta^*
+  # rs_rec:
+  #   latex: r_\mathrm{s rec}
+  # da_rec:
+  #   latex: D_{A \mathrm{rec}}
+  # z_rec:
+  #   latex: z_\mathrm{rec}
+  # theta_s_1e2:
+  #   derived: 'lambda rs_rec,da_rec,z_rec: 100*rs_rec/da_rec/(1+z_rec)'
+  #   latex: 100\theta_\mathrm{s}
+  HMCode_logT_AGN:
+    prior:
+      min: 7.3
+      max: 8.0
+    ref: 7.8
+sampler:
+  # mcmc:
+  #   covmat: auto
+  evaluate:
+    override:
+      wl_photoz_errors_des__bias_1: 0
+      wl_photoz_errors_des__bias_2: 0
+      wl_photoz_errors_des__bias_3: 0
+      wl_photoz_errors_des__bias_4: 0
+      nofz_shifts_kids__uncorr_bias_1: 0
+      nofz_shifts_kids__uncorr_bias_2: -0.181
+      nofz_shifts_kids__uncorr_bias_3: -1.11
+      nofz_shifts_kids__uncorr_bias_4: -1.395
+      nofz_shifts_kids__uncorr_bias_5: 1.265
+      shear_calibration_parameters__m1: 0
+      shear_calibration_parameters__m2: 0
+      shear_calibration_parameters__m3: 0
+      shear_calibration_parameters__m4: 0
+      intrinsic_alignment_parameters__a1_des: 0
+      intrinsic_alignment_parameters__alpha1_des: 0
+      intrinsic_alignment_parameters__a1_kids: 0
+      intrinsic_alignment_parameters__alpha1_kids: 0
+      HMCode_logT_AGN: 7.8
+      omegach2: 0.11812972217650827
+      omegabh2: 0.025939374402978773
+      H0: 76.66550530735352
+      ns: 0.9007697522848085
+      S_8: 0.7567464875805479
+      mnu: 0.07740741
+      tau: 0.0697186
+output: chains/des-y3_and_kids-1000

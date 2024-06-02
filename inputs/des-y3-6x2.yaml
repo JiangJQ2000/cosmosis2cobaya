@@ -1,0 +1,558 @@
+stop_at_error: True
+timing: True
+theory:
+  cosmosis2cobaya.boltzmann:
+    zmax: 4.
+    n_logz: 100
+    zmax_logz: 1100.
+  cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
+    renames_input:
+      matter_power_lin: matter_power_lin
+      matter_power_nl: matter_power_nl
+    renames_output:
+      fastpt: fastpt__after__fast_pt
+  cosmosis2cobaya.number_density.load_nz_fits.load_nz_fits.fits_nz:
+    renames_input: {}
+    renames_output:
+      nz_lens: nz_lens__after__fits_nz
+      nz_source: nz_source__after__fits_nz
+  cosmosis2cobaya.number_density.photoz_width.photoz_width.lens_photoz_width:
+    renames_input:
+      nz_lens: nz_lens__after__fits_nz
+      lens_photoz_errors: lens_photoz_errors
+    renames_output:
+      nz_lens: nz_lens__after__lens_photoz_width
+  cosmosis2cobaya.number_density.photoz_bias.photoz_bias.lens_photoz_bias:
+    renames_input:
+      nz_lens: nz_lens__after__lens_photoz_width
+      lens_photoz_errors: lens_photoz_errors
+    renames_output:
+      nz_lens: nz_lens__after__lens_photoz_bias
+  cosmosis2cobaya.number_density.photoz_bias.photoz_bias.source_photoz_bias:
+    renames_input:
+      nz_source: nz_source__after__fits_nz
+      wl_photoz_errors: wl_photoz_errors
+    renames_output:
+      nz_source: nz_source__after__source_photoz_bias
+  cosmosis2cobaya.intrinsic_alignments.tatt.tatt_interface.IA:
+    renames_input:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters
+      cosmological_parameters: cosmological_parameters
+      matter_power_lin: matter_power_lin
+      matter_power_nl: matter_power_nl
+      fastpt: fastpt__after__fast_pt
+    renames_output:
+      intrinsic_alignment_parameters: intrinsic_alignment_parameters__after__ia
+      intrinsic_power_ee: intrinsic_power_ee__after__ia
+      intrinsic_power_bb: intrinsic_power_bb__after__ia
+      matter_intrinsic_power: matter_intrinsic_power__after__ia
+      intrinsic_power: intrinsic_power__after__ia
+  cosmosis2cobaya.structure.projection.project_2d.pk_to_cl_gg:
+    renames_input:
+      cosmological_parameters: cosmological_parameters
+      bias_lens: bias_lens
+      distances: distances
+      matter_power_lin: matter_power_lin
+      matter_power_nl: matter_power_nl
+      nz_lens: nz_lens__after__lens_photoz_bias
+    renames_output:
+      galaxy_cl: galaxy_cl__after__pk_to_cl_gg
+  cosmosis2cobaya.structure.projection.project_2d.pk_to_cl:
+    renames_input:
+      cosmological_parameters: cosmological_parameters
+      bias_lens: bias_lens
+      mag_alpha_lens: mag_alpha_lens
+      distances: distances
+      matter_power_nl: matter_power_nl
+      nz_lens: nz_lens__after__lens_photoz_bias
+      nz_source: nz_source__after__source_photoz_bias
+      intrinsic_power_bb: intrinsic_power_bb__after__ia
+      matter_intrinsic_power: matter_intrinsic_power__after__ia
+      intrinsic_power: intrinsic_power__after__ia
+    renames_output:
+      shear_cl: shear_cl__after__pk_to_cl
+      shear_cl_gi: shear_cl_gi__after__pk_to_cl
+      shear_cl_ii: shear_cl_ii__after__pk_to_cl
+      shear_cl_bb: shear_cl_bb__after__pk_to_cl
+      magnification_cl: magnification_cl__after__pk_to_cl
+      magnification_intrinsic_cl: magnification_intrinsic_cl__after__pk_to_cl
+      magnification_shear_cl: magnification_shear_cl__after__pk_to_cl
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__pk_to_cl
+      cmbkappa_cl: cmbkappa_cl__after__pk_to_cl
+      intrinsic_cmbkappa_cl: intrinsic_cmbkappa_cl__after__pk_to_cl
+      galaxy_cmbkappa_cl: galaxy_cmbkappa_cl__after__pk_to_cl
+      magnification_cmbkappa_cl: magnification_cmbkappa_cl__after__pk_to_cl
+      galaxy_shear_cl: galaxy_shear_cl__after__pk_to_cl
+      galaxy_magnification_cl: galaxy_magnification_cl__after__pk_to_cl
+      galaxy_intrinsic_cl: galaxy_intrinsic_cl__after__pk_to_cl
+  cosmosis2cobaya.structure.magnification.add_magnification.add_magnification:
+    renames_input:
+      galaxy_cl: galaxy_cl__after__pk_to_cl_gg
+      galaxy_cmbkappa_cl: galaxy_cmbkappa_cl__after__pk_to_cl
+      galaxy_shear_cl: galaxy_shear_cl__after__pk_to_cl
+      magnification_cl: magnification_cl__after__pk_to_cl
+      magnification_intrinsic_cl: magnification_intrinsic_cl__after__pk_to_cl
+      magnification_shear_cl: magnification_shear_cl__after__pk_to_cl
+      magnification_cmbkappa_cl: magnification_cmbkappa_cl__after__pk_to_cl
+      galaxy_magnification_cl: galaxy_magnification_cl__after__pk_to_cl
+    renames_output:
+      galaxy_cl: galaxy_cl__after__add_magnification
+      galaxy_cmbkappa_cl: galaxy_cmbkappa_cl__after__add_magnification
+      galaxy_shear_cl: galaxy_shear_cl__after__add_magnification
+      galaxy_cl_gg: galaxy_cl_gg__after__add_magnification
+      galaxy_shear_cl_gg: galaxy_shear_cl_gg__after__add_magnification
+      galaxy_cmbkappa_cl_gk: galaxy_cmbkappa_cl_gk__after__add_magnification
+  cosmosis2cobaya.shear.add_intrinsic.add_intrinsic.add_intrinsic:
+    want_intrinsic_intrinsic_bb: False
+    renames_input:
+      shear_cl: shear_cl__after__pk_to_cl
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__pk_to_cl
+      galaxy_shear_cl: galaxy_shear_cl__after__add_magnification
+      shear_cl_gi: shear_cl_gi__after__pk_to_cl
+      shear_cl_ii: shear_cl_ii__after__pk_to_cl
+      intrinsic_cmbkappa_cl: intrinsic_cmbkappa_cl__after__pk_to_cl
+      galaxy_intrinsic_cl: galaxy_intrinsic_cl__after__pk_to_cl
+    renames_output:
+      shear_cl: shear_cl__after__add_intrinsic
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__add_intrinsic
+      galaxy_shear_cl: galaxy_shear_cl__after__add_intrinsic
+      shear_cl_gg: shear_cl_gg__after__add_intrinsic
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_shear:
+    renames_input:
+      shear_cl: shear_cl__after__add_intrinsic
+      shear_cl_bb: shear_cl_bb__after__pk_to_cl
+    renames_output:
+      shear_cl_eplusb: shear_cl_eplusb__after__2pt_shear
+      shear_cl_eminusb: shear_cl_eminusb__after__2pt_shear
+      shear_xi_plus: shear_xi_plus__after__2pt_shear
+      shear_xi_minus: shear_xi_minus__after__2pt_shear
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_gal:
+    renames_input:
+      galaxy_cl: galaxy_cl__after__add_magnification
+    renames_output:
+      galaxy_xi: galaxy_xi__after__2pt_gal
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_gal_shear:
+    renames_input:
+      galaxy_shear_cl: galaxy_shear_cl__after__add_intrinsic
+    renames_output:
+      galaxy_shear_xi: galaxy_shear_xi__after__2pt_gal_shear
+  cosmosis2cobaya.cmb_lensing.kappa_beam.kappa_beam.beam_kappa_spt:
+    renames_input:
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__add_intrinsic
+      cmbkappa_cl: cmbkappa_cl__after__pk_to_cl
+      galaxy_cmbkappa_cl: galaxy_cmbkappa_cl__after__add_magnification
+    renames_output:
+      galaxy_cmbkappa_cl_spt: galaxy_cmbkappa_cl_spt__after__beam_kappa_spt
+      shear_cmbkappa_cl_spt: shear_cmbkappa_cl_spt__after__beam_kappa_spt
+      cmbkappa_cl_spt: cmbkappa_cl_spt__after__beam_kappa_spt
+  cosmosis2cobaya.cmb_lensing.kappa_beam.kappa_beam.beam_kappa_planck:
+    renames_input:
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__add_intrinsic
+      cmbkappa_cl: cmbkappa_cl__after__pk_to_cl
+      galaxy_cmbkappa_cl: galaxy_cmbkappa_cl__after__add_magnification
+    renames_output:
+      galaxy_cmbkappa_cl_planck: galaxy_cmbkappa_cl_planck__after__beam_kappa_planck
+      shear_cmbkappa_cl_planck: shear_cmbkappa_cl_planck__after__beam_kappa_planck
+      cmbkappa_cl_planck: cmbkappa_cl_planck__after__beam_kappa_planck
+  cosmosis2cobaya.cmb_lensing.kappa_ell_cut.kappa_ell_cut.kappa_lrange_spt:
+    renames_input:
+      galaxy_cmbkappa_cl_spt: galaxy_cmbkappa_cl_spt__after__beam_kappa_spt
+      shear_cmbkappa_cl_spt: shear_cmbkappa_cl_spt__after__beam_kappa_spt
+      cmbkappa_cl_spt: cmbkappa_cl_spt__after__beam_kappa_spt
+    renames_output:
+      galaxy_cmbkappa_cl_spt: galaxy_cmbkappa_cl_spt__after__kappa_lrange_spt
+      shear_cmbkappa_cl_spt: shear_cmbkappa_cl_spt__after__kappa_lrange_spt
+      cmbkappa_cl_spt: cmbkappa_cl_spt__after__kappa_lrange_spt
+  cosmosis2cobaya.cmb_lensing.kappa_ell_cut.kappa_ell_cut.kappa_lrange_planck:
+    renames_input:
+      galaxy_cmbkappa_cl_planck: galaxy_cmbkappa_cl_planck__after__beam_kappa_planck
+      shear_cmbkappa_cl_planck: shear_cmbkappa_cl_planck__after__beam_kappa_planck
+      cmbkappa_cl_planck: cmbkappa_cl_planck__after__beam_kappa_planck
+    renames_output:
+      galaxy_cmbkappa_cl_planck: galaxy_cmbkappa_cl_planck__after__kappa_lrange_planck
+      shear_cmbkappa_cl_planck: shear_cmbkappa_cl_planck__after__kappa_lrange_planck
+      cmbkappa_cl_planck: cmbkappa_cl_planck__after__kappa_lrange_planck
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_gal_cmbkappa:
+    renames_input:
+      galaxy_cmbkappa_cl_spt: galaxy_cmbkappa_cl_spt__after__kappa_lrange_spt
+    renames_output:
+      galaxy_cmbkappa_xi_spt: galaxy_cmbkappa_xi_spt__after__2pt_gal_cmbkappa
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_shear_cmbkappa:
+    renames_input:
+      shear_cmbkappa_cl_spt: shear_cmbkappa_cl_spt__after__kappa_lrange_spt
+    renames_output:
+      shear_cmbkappa_xi_spt: shear_cmbkappa_xi_spt__after__2pt_shear_cmbkappa
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_gal_cmbkappa_planck:
+    renames_input:
+      galaxy_cmbkappa_cl_planck: galaxy_cmbkappa_cl_planck__after__kappa_lrange_planck
+    renames_output:
+      galaxy_cmbkappa_xi_planck: galaxy_cmbkappa_xi_planck__after__2pt_gal_cmbkappa_planck
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_shear_cmbkappa_planck:
+    renames_input:
+      shear_cmbkappa_cl_planck: shear_cmbkappa_cl_planck__after__kappa_lrange_planck
+    renames_output:
+      shear_cmbkappa_xi_planck: shear_cmbkappa_xi_planck__after__2pt_shear_cmbkappa_planck
+  cosmosis2cobaya.shear.shear_bias.shear_m_bias.shear_m_bias:
+    renames_input:
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__add_intrinsic
+      shear_xi_plus: shear_xi_plus__after__2pt_shear
+      shear_xi_minus: shear_xi_minus__after__2pt_shear
+      galaxy_shear_xi: galaxy_shear_xi__after__2pt_gal_shear
+      shear_cmbkappa_xi_spt: shear_cmbkappa_xi_spt__after__2pt_shear_cmbkappa
+      shear_cmbkappa_xi_planck: shear_cmbkappa_xi_planck__after__2pt_shear_cmbkappa_planck
+      shear_calibration_parameters: shear_calibration_parameters
+    renames_output:
+      shear_cmbkappa_cl: shear_cmbkappa_cl__after__shear_m_bias
+      shear_xi_plus: shear_xi_plus__after__shear_m_bias
+      shear_xi_minus: shear_xi_minus__after__shear_m_bias
+      galaxy_shear_xi: galaxy_shear_xi__after__shear_m_bias
+      shear_cmbkappa_xi_spt: shear_cmbkappa_xi_spt__after__shear_m_bias
+      shear_cmbkappa_xi_planck: shear_cmbkappa_xi_planck__after__shear_m_bias
+  cosmosis2cobaya.shear.point_mass.add_gammat_point_mass.add_point_mass:
+    want_B_section: False
+    renames_input:
+      nz_lens: nz_lens__after__lens_photoz_bias
+      nz_source: nz_source__after__source_photoz_bias
+    renames_output:
+      sigma_crit_inv_lens_source: sigma_crit_inv_lens_source__after__add_point_mass
+  camb:
+    extra_args:
+      num_massive_neutrinos: 3
+      halofit_version: takahashi
+likelihood:
+  cosmosis2cobaya.likelihood.2pt.2pt_point_mass.2pt_point_mass.TwoPt_point_mass:
+    renames_input:
+      shear_xi_plus: shear_xi_plus__after__shear_m_bias
+      shear_xi_minus: shear_xi_minus__after__shear_m_bias
+      galaxy_xi: galaxy_xi__after__2pt_gal
+      galaxy_shear_xi: galaxy_shear_xi__after__shear_m_bias
+      galaxy_cmbkappa_xi_spt: galaxy_cmbkappa_xi_spt__after__2pt_gal_cmbkappa
+      shear_cmbkappa_xi_spt: shear_cmbkappa_xi_spt__after__shear_m_bias
+      galaxy_cmbkappa_xi_planck: galaxy_cmbkappa_xi_planck__after__2pt_gal_cmbkappa_planck
+      shear_cmbkappa_xi_planck: shear_cmbkappa_xi_planck__after__shear_m_bias
+      sigma_crit_inv_lens_source: sigma_crit_inv_lens_source__after__add_point_mass
+    renames_output:
+      data_vector: data_vector__after__2pt_like
+      likelihoods: likelihoods
+  cosmosis2cobaya.likelihood.des-y3.shear_ratio.shear_ratio_likelihood.shear_ratio_like:
+    renames_input:
+      galaxy_shear_xi: galaxy_shear_xi__after__shear_m_bias
+    renames_output:
+      data_vector: data_vector__after__shear_ratio_like
+      likelihoods: likelihoods
+params:
+  omegam:
+    prior:
+      min: 0.1
+      max: 0.9
+    ref: 0.3
+    proposal: 0.02
+    latex: \Omega_\mathrm{m}
+    # drop: true
+  H0:
+    prior:
+      min: 55
+      max: 91
+    ref: 69
+    proposal: 2
+    latex: H_0
+  omegab:
+    prior:
+      min: 0.03
+      max: 0.07
+    ref: 0.048
+    proposal: 0.0001
+    latex: \Omega_\mathrm{b} h^2
+  omegabh2:
+    value: 'lambda omegab, H0: omegab*(H0/100)**2'
+    latex: \Omega_\mathrm{b} h^2
+  omegach2:
+    value: 'lambda omegam, omegab, mnu, H0, nnu: (omegam-omegab)*(H0/100)**2-(mnu*(nnu/3)**0.75)/94.06410581217612'
+    latex: \Omega_\mathrm{c} h^2
+  omegamh2:
+    derived: 'lambda omegam, H0: omegam*(H0/100)**2'
+    latex: \Omega_\mathrm{m} h^2
+  ns:
+    prior:
+      min: 0.87
+      max: 1.07
+    ref: 0.97
+    proposal: 0.002
+    latex: n_\mathrm{s}
+  As:
+    prior:
+      min: 0.5e-09
+      max: 5.0e-09
+    ref: 2.19e-9
+    proposal: 0.25e-9
+    latex: A_\mathrm{s}
+  omegal:
+    latex: \Omega_\Lambda
+  mnu:
+    prior:
+      min: 0.06
+      max: 0.6
+    ref: 0.0773
+    proposal: 0.03
+    latex: \sum m_\nu
+  nnu: 3.046
+  YHe:
+    latex: Y_\mathrm{P}
+  tau: 0.0697186
+  zrei:
+    latex: z_\mathrm{re}
+  sigma8:
+    latex: \sigma_8
+  s8h5:
+    derived: 'lambda sigma8, H0: sigma8*(H0*1e-2)**(-0.5)'
+    latex: \sigma_8/h^{0.5}
+  s8omegamp5:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.5'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.5}
+  s8omegamp25:
+    derived: 'lambda sigma8, omegam: sigma8*omegam**0.25'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.25}
+  S8:
+    derived: 'lambda sigma8, omegam: sigma8*np.sqrt(omegam/0.3)'
+    latex: S_8
+  A:
+    derived: 'lambda As: 1e9*As'
+    latex: 10^9 A_\mathrm{s}
+  clamp:
+    derived: 'lambda As, tau: 1e9*As*np.exp(-2*tau)'
+    latex: 10^9 A_\mathrm{s} e^{-2\tau}
+  age:
+    latex: '{\rm{Age}}/\mathrm{Gyr}'
+  rdrag:
+    latex: r_\mathrm{drag}
+  betaBAO:
+    derived: 'lambda rdrag,H0: 299792.458 / rdrag / H0'
+    latex: \beta_\mathrm{BAO}
+  # rs_star:
+  #   latex: r^*
+  #   renames:
+  # da_star:
+  #   latex: D_A^*
+  # z_star:
+  #   latex: z^*
+  # theta_star_1e2:
+  #   derived: 'lambda rs_star,da_star,z_star: 100*rs_star/da_star/(1+z_star)'
+  #   latex: 100\theta^*
+  # rs_rec:
+  #   latex: r_\mathrm{s rec}
+  # da_rec:
+  #   latex: D_{A \mathrm{rec}}
+  # z_rec:
+  #   latex: z_\mathrm{rec}
+  # theta_s_1e2:
+  #   derived: 'lambda rs_rec,da_rec,z_rec: 100*rs_rec/da_rec/(1+z_rec)'
+  #   latex: 100\theta_\mathrm{s}
+  _cosmosis2cobaya._dummy: -8848
+  bias_lens:
+    derived: false
+    value: 'lambda bias_lens__b1,bias_lens__b2,bias_lens__b3,bias_lens__b4,bias_lens__b5,bias_lens__b6:
+      {''b1'':bias_lens__b1,''b2'':bias_lens__b2,''b3'':bias_lens__b3,''b4'':bias_lens__b4,''b5'':bias_lens__b5,''b6'':bias_lens__b6}'
+  bias_lens__b1:
+    drop: true
+    prior:
+      max: 3.0
+      min: 0.8
+    ref: 1.5
+  bias_lens__b2:
+    drop: true
+    prior:
+      max: 3.0
+      min: 0.8
+    ref: 1.8
+  bias_lens__b3:
+    drop: true
+    prior:
+      max: 3.0
+      min: 0.8
+    ref: 1.8
+  bias_lens__b4:
+    drop: true
+    prior:
+      max: 3.0
+      min: 0.8
+    ref: 1.9
+  bias_lens__b5: 2.3
+  bias_lens__b6: 2.3
+  intrinsic_alignment_parameters:
+    derived: false
+    value: 'lambda intrinsic_alignment_parameters__z_piv,intrinsic_alignment_parameters__a1,intrinsic_alignment_parameters__a2,intrinsic_alignment_parameters__alpha1,intrinsic_alignment_parameters__alpha2,intrinsic_alignment_parameters__bias_ta:
+      {''z_piv'':intrinsic_alignment_parameters__z_piv,''a1'':intrinsic_alignment_parameters__a1,''a2'':intrinsic_alignment_parameters__a2,''alpha1'':intrinsic_alignment_parameters__alpha1,''alpha2'':intrinsic_alignment_parameters__alpha2,''bias_ta'':intrinsic_alignment_parameters__bias_ta}'
+  intrinsic_alignment_parameters__a1:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: 0.7
+  intrinsic_alignment_parameters__a2:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: -1.36
+  intrinsic_alignment_parameters__alpha1:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: -1.7
+  intrinsic_alignment_parameters__alpha2:
+    drop: true
+    prior:
+      max: 5.0
+      min: -5.0
+    ref: -2.5
+  intrinsic_alignment_parameters__bias_ta:
+    drop: true
+    prior:
+      max: 2.0
+      min: 0.0
+    ref: 1.0
+  intrinsic_alignment_parameters__z_piv: 0.62
+  lens_photoz_errors:
+    derived: false
+    value: 'lambda lens_photoz_errors__bias_1,lens_photoz_errors__bias_2,lens_photoz_errors__bias_3,lens_photoz_errors__bias_4,lens_photoz_errors__bias_5,lens_photoz_errors__width_1,lens_photoz_errors__width_2,lens_photoz_errors__width_3,lens_photoz_errors__width_4,lens_photoz_errors__width_5,lens_photoz_errors__bias_6,lens_photoz_errors__width_6:
+      {''bias_1'':lens_photoz_errors__bias_1,''bias_2'':lens_photoz_errors__bias_2,''bias_3'':lens_photoz_errors__bias_3,''bias_4'':lens_photoz_errors__bias_4,''bias_5'':lens_photoz_errors__bias_5,''width_1'':lens_photoz_errors__width_1,''width_2'':lens_photoz_errors__width_2,''width_3'':lens_photoz_errors__width_3,''width_4'':lens_photoz_errors__width_4,''width_5'':lens_photoz_errors__width_5,''bias_6'':lens_photoz_errors__bias_6,''width_6'':lens_photoz_errors__width_6}'
+  lens_photoz_errors__bias_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.009
+      scale: 0.007
+    ref: 0.0
+  lens_photoz_errors__bias_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.035
+      scale: 0.011
+    ref: 0.0
+  lens_photoz_errors__bias_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.005
+      scale: 0.006
+    ref: 0.0
+  lens_photoz_errors__bias_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.007
+      scale: 0.006
+    ref: 0.0
+  lens_photoz_errors__bias_5: 0.0
+  lens_photoz_errors__bias_6: 0.0
+  lens_photoz_errors__width_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.975
+      scale: 0.062
+    ref: 1.0
+  lens_photoz_errors__width_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: 1.306
+      scale: 0.093
+    ref: 1.0
+  lens_photoz_errors__width_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.87
+      scale: 0.054
+    ref: 1.0
+  lens_photoz_errors__width_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.918
+      scale: 0.051
+    ref: 1.0
+  lens_photoz_errors__width_5: 1.0
+  lens_photoz_errors__width_6: 1.0
+  mag_alpha_lens:
+    derived: false
+    value: 'lambda mag_alpha_lens__alpha_1,mag_alpha_lens__alpha_2,mag_alpha_lens__alpha_3,mag_alpha_lens__alpha_4,mag_alpha_lens__alpha_5,mag_alpha_lens__alpha_6:
+      {''alpha_1'':mag_alpha_lens__alpha_1,''alpha_2'':mag_alpha_lens__alpha_2,''alpha_3'':mag_alpha_lens__alpha_3,''alpha_4'':mag_alpha_lens__alpha_4,''alpha_5'':mag_alpha_lens__alpha_5,''alpha_6'':mag_alpha_lens__alpha_6}'
+  mag_alpha_lens__alpha_1: 1.21
+  mag_alpha_lens__alpha_2: 1.15
+  mag_alpha_lens__alpha_3: 1.88
+  mag_alpha_lens__alpha_4: 1.97
+  mag_alpha_lens__alpha_5: 1.78
+  mag_alpha_lens__alpha_6: 2.48
+  shear_calibration_parameters:
+    derived: false
+    value: 'lambda shear_calibration_parameters__m1,shear_calibration_parameters__m2,shear_calibration_parameters__m3,shear_calibration_parameters__m4:
+      {''m1'':shear_calibration_parameters__m1,''m2'':shear_calibration_parameters__m2,''m3'':shear_calibration_parameters__m3,''m4'':shear_calibration_parameters__m4}'
+  shear_calibration_parameters__m1:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0063
+      scale: 0.0091
+    ref: 0.0
+  shear_calibration_parameters__m2:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0198
+      scale: 0.0078
+    ref: 0.0
+  shear_calibration_parameters__m3:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0241
+      scale: 0.0076
+    ref: 0.0
+  shear_calibration_parameters__m4:
+    drop: true
+    prior:
+      dist: norm
+      loc: -0.0369
+      scale: 0.0076
+    ref: 0.0
+  wl_photoz_errors:
+    derived: false
+    value: 'lambda wl_photoz_errors__bias_1,wl_photoz_errors__bias_2,wl_photoz_errors__bias_3,wl_photoz_errors__bias_4:
+      {''bias_1'':wl_photoz_errors__bias_1,''bias_2'':wl_photoz_errors__bias_2,''bias_3'':wl_photoz_errors__bias_3,''bias_4'':wl_photoz_errors__bias_4}'
+  wl_photoz_errors__bias_1:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.018
+    ref: 0.0
+  wl_photoz_errors__bias_2:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.015
+    ref: 0.0
+  wl_photoz_errors__bias_3:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.011
+    ref: 0.0
+  wl_photoz_errors__bias_4:
+    drop: true
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.017
+    ref: 0.0
+sampler:
+  # mcmc:
+  #   covmat: auto
+  evaluate:
+output: chains/des-y3-6x2
