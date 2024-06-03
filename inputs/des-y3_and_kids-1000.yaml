@@ -6,6 +6,8 @@ theory:
     nz_mid: 100
     zmax: 6.
     nz: 150
+    same_k_grid: true
+    kmax: 100.
     renames_output:
       matter_power_lin: matter_power_lin__0
       matter_power_nl: matter_power_nl__0

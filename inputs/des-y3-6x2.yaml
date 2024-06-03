@@ -5,6 +5,9 @@ theory:
     zmax: 4.
     n_logz: 100
     zmax_logz: 1100.
+    same_k_grid: true
+    nk: 400
+    kmax: 100.
   cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
     renames_input:
       matter_power_lin: matter_power_lin

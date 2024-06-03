@@ -20,6 +20,10 @@ class boltzmann(Theory):
     zmax_logz = 1100.
     zmid = None
     nz_mid = None
+    same_k_grid = False # set True can make FAST-PT faster
+    # the followings make sense only if same_k_grid = True
+    nk = 200
+    kmax = 10. # 1/Mpc
 
     def initialize(self):
         if self.zmax_background is None:
@@ -31,16 +35,7 @@ class boltzmann(Theory):
         self.z_background = np.append(self.z_background, log_z[1:])
     
     def get_requirements(self):
-        return {
-            'Pk_grid': {
-                'z': np.concatenate((
-                    np.linspace(self.zmin, self.zmid, self.nz_mid, endpoint=False),
-                    np.linspace(self.zmid, self.zmax, self.nz-self.nz_mid),
-                )) if self.zmid is not None else
-                np.linspace(self.zmin, self.zmax, self.nz),
-                'k_max': 100/0.7666550530735352,
-                'nonlinear': [True, False]
-            },
+        ret = {
             'H0': None,
             'omegam': None,
             'comoving_radial_distance': {'z': self.z_background},
@@ -51,6 +46,27 @@ class boltzmann(Theory):
             "CAMBdata": None,
             'zstar': None
         }
+        if self.same_k_grid:
+            self.Pk_interpolator_z = np.concatenate((
+                np.linspace(self.zmin, self.zmid, self.nz_mid, endpoint=False),
+                np.linspace(self.zmid, self.zmax, self.nz-self.nz_mid),
+            )) if self.zmid is not None else np.linspace(self.zmin, self.zmax, self.nz)
+            ret['Pk_interpolator'] = {
+                'z': self.Pk_interpolator_z,
+                'k_max': self.kmax/0.7666550530735352,
+                'nonlinear': [True, False],
+            }
+        else:
+            ret['Pk_grid'] = {
+                'z': np.concatenate((
+                    np.linspace(self.zmin, self.zmid, self.nz_mid, endpoint=False),
+                    np.linspace(self.zmid, self.zmax, self.nz-self.nz_mid),
+                )) if self.zmid is not None else
+                np.linspace(self.zmin, self.zmax, self.nz),
+                'k_max': self.kmax/0.7666550530735352,
+                'nonlinear': [True, False]
+            }
+        return ret
     
     def get_can_provide(self):
         return [self.renames_output.get(i, i).lower() for i in (
@@ -78,11 +94,19 @@ class boltzmann(Theory):
         CAMBdata = self.provider.get_CAMBdata()
         block['distances', 'CHISTAR'] = CAMBdata.conformal_time(0) - CAMBdata.tau_maxvis
 
-        k, z, Pk = self.provider.get_Pk_grid(nonlinear=True)
-        block.put_grid('matter_power_nl', "z", z, "k_h", k/h, "P_k", Pk*h**3)
-
-        k, z, Pk = self.provider.get_Pk_grid(nonlinear=False)
-        block.put_grid('matter_power_lin', "z", z, "k_h", k/h, "P_k", Pk*h**3)
+        if self.same_k_grid:
+            z = self.Pk_interpolator_z
+            kmax_power = self.kmax
+            lin_Pk = self.provider.get_Pk_interpolator(nonlinear=False, extrap_kmin=1e-5*h)
+            nolin_Pk = self.provider.get_Pk_interpolator(nonlinear=True, extrap_kmin=1e-5*h)
+            k = np.logspace(np.log10(1e-5), np.log10(kmax_power), self.nk)
+            block.put_grid('matter_power_nl', "z", z, "k_h", k, "P_k", nolin_Pk.P(z, k*h, grid=True)*h**3)
+            block.put_grid('matter_power_lin', "z", z, "k_h", k, "P_k", lin_Pk.P(z, k*h, grid=True)*h**3)
+        else:
+            k, z, Pk = self.provider.get_Pk_grid(nonlinear=True)
+            block.put_grid('matter_power_nl', "z", z, "k_h", k/h, "P_k", Pk*h**3)
+            k, z, Pk = self.provider.get_Pk_grid(nonlinear=False)
+            block.put_grid('matter_power_lin', "z", z, "k_h", k/h, "P_k", Pk*h**3)
         
         for section in block.sections():
             state[self.renames_output.get(section, section).lower()] = {k[1]: block[*k] for k in block.keys(section=section)}
