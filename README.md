@@ -6,7 +6,7 @@ Utilize CosmoSIS modules in cobaya.
 
 ### Installation
 
-- Make sure you have installed [CosmoSIS](https://github.com/joezuntz/cosmosis) and [cosmosis-standard-library](https://github.com/joezuntz/cosmosis-standard-library) correctly.
+- Make sure you have installed python>=3.9, [CosmoSIS](https://github.com/joezuntz/cosmosis) and [cosmosis-standard-library](https://github.com/joezuntz/cosmosis-standard-library) properly.
 
 - Install cosmosis2cobaya with `pip install cosmosis2cobaya`.
 
@@ -26,7 +26,7 @@ If it works well, you can modify these yaml files to what you want.
 cosmosis2cobaya allows you to use almost any module (called component, theory, likelihood in cobaya) from CosmoSIS in cobaya.
 But first, let's clarify some of the differences between CosmoSIS and cobaya.
 
-- There are two ways to automatically organize modules: Either give the execution order of the modules and then let the data automatically flow in and out, or first give the data that flows in and out of each module and then automatically determine the execution order based on the dependencies. CosmoSIS is the former and cobaya is the latter. So in order to port the CosmoSIS module to cobaya, we must first determine what data goes in and out.
+- There are two ways to automatically organize modules: either give the execution order of the modules and then let the data automatically flow in and out, or first give the data that flows in and out of each module and then automatically determine the execution order based on the dependencies. CosmoSIS is the former and cobaya is the latter. So in order to port the CosmoSIS module to cobaya, we must first determine what data goes in and out.
 
 - Because the execution order is given in CosmoSIS, data with the same name can be read and written repeatedly. But in cobaya, data names are used to determine dependencies, so they can only be written (created) by one module.
 

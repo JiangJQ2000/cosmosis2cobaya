@@ -252,4 +252,4 @@ sampler:
       S_8: 0.7567464875805479
       mnu: 0.07740741
       tau: 0.0697186
-output: chains/test
+output: chains/kids-1000
