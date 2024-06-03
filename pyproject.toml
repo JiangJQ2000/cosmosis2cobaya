@@ -15,6 +15,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+  "numpy",
+  "cosmosis",
+  "cobaya>=3.5.1"
 ]
 
 [tool.setuptools]
