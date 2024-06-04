@@ -53,7 +53,7 @@ class boltzmann(Theory):
             )) if self.zmid is not None else np.linspace(self.zmin, self.zmax, self.nz)
             ret['Pk_interpolator'] = {
                 'z': self.Pk_interpolator_z,
-                'k_max': self.kmax/0.7666550530735352,
+                'k_max': self.kmax, # 1/Mpc, allow H0 up to 100
                 'nonlinear': [True, False],
             }
         else:
@@ -63,7 +63,7 @@ class boltzmann(Theory):
                     np.linspace(self.zmid, self.zmax, self.nz-self.nz_mid),
                 )) if self.zmid is not None else
                 np.linspace(self.zmin, self.zmax, self.nz),
-                'k_max': self.kmax/0.7666550530735352,
+                'k_max': self.kmax, # 1/Mpc, allow H0 up to 100
                 'nonlinear': [True, False]
             }
         return ret
