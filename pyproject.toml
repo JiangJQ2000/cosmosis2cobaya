@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cosmosis2cobaya"
-version = "0.2"
+version = "0.3"
 authors = [
   { name="Jun-Qian Jiang" },
 ]
