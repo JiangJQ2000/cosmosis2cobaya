@@ -6,6 +6,9 @@ theory:
     zmax: 4.
     n_logz: 100
     zmax_logz: 1100.
+    # The following two are needed for CMB lensing spectra, but are currently only available in the CAMB interface
+    want_zstar: true
+    want_chistar: true
     same_k_grid: true # set True can make FAST-PT faster
     # the followings make sense only if same_k_grid = True
     nk: 400
@@ -387,8 +390,12 @@ params:
       max: 3.0
       min: 0.8
     ref: 1.9
-  bias_lens__b5: 2.3
-  bias_lens__b6: 2.3
+  bias_lens__b5:
+    value: 2.3
+    drop: true
+  bias_lens__b6:
+    value: 2.3
+    drop: true
   intrinsic_alignment_parameters:
     derived: false
     value: 'lambda intrinsic_alignment_parameters__z_piv,intrinsic_alignment_parameters__a1,intrinsic_alignment_parameters__a2,intrinsic_alignment_parameters__alpha1,intrinsic_alignment_parameters__alpha2,intrinsic_alignment_parameters__bias_ta:
@@ -423,7 +430,9 @@ params:
       max: 2.0
       min: 0.0
     ref: 1.0
-  intrinsic_alignment_parameters__z_piv: 0.62
+  intrinsic_alignment_parameters__z_piv:
+    value: 0.62
+    drop: true
   lens_photoz_errors:
     derived: false
     value: 'lambda lens_photoz_errors__bias_1,lens_photoz_errors__bias_2,lens_photoz_errors__bias_3,lens_photoz_errors__bias_4,lens_photoz_errors__bias_5,lens_photoz_errors__width_1,lens_photoz_errors__width_2,lens_photoz_errors__width_3,lens_photoz_errors__width_4,lens_photoz_errors__width_5,lens_photoz_errors__bias_6,lens_photoz_errors__width_6:
@@ -486,18 +495,34 @@ params:
       loc: 0.918
       scale: 0.051
     ref: 1.0
-  lens_photoz_errors__width_5: 1.0
-  lens_photoz_errors__width_6: 1.0
+  lens_photoz_errors__width_5:
+    value: 1.0
+    drop: true
+  lens_photoz_errors__width_6:
+    value: 1.0
+    drop: true
   mag_alpha_lens:
     derived: false
     value: 'lambda mag_alpha_lens__alpha_1,mag_alpha_lens__alpha_2,mag_alpha_lens__alpha_3,mag_alpha_lens__alpha_4,mag_alpha_lens__alpha_5,mag_alpha_lens__alpha_6:
       {''alpha_1'':mag_alpha_lens__alpha_1,''alpha_2'':mag_alpha_lens__alpha_2,''alpha_3'':mag_alpha_lens__alpha_3,''alpha_4'':mag_alpha_lens__alpha_4,''alpha_5'':mag_alpha_lens__alpha_5,''alpha_6'':mag_alpha_lens__alpha_6}'
-  mag_alpha_lens__alpha_1: 1.21
-  mag_alpha_lens__alpha_2: 1.15
-  mag_alpha_lens__alpha_3: 1.88
-  mag_alpha_lens__alpha_4: 1.97
-  mag_alpha_lens__alpha_5: 1.78
-  mag_alpha_lens__alpha_6: 2.48
+  mag_alpha_lens__alpha_1:
+    value: 1.21
+    drop: true
+  mag_alpha_lens__alpha_2:
+    value: 1.15
+    drop: true
+  mag_alpha_lens__alpha_3:
+    value: 1.88
+    drop: true
+  mag_alpha_lens__alpha_4:
+    value: 1.97
+    drop: true
+  mag_alpha_lens__alpha_5:
+    value: 1.78
+    drop: true
+  mag_alpha_lens__alpha_6:
+    value: 2.48
+    drop: true
   shear_calibration_parameters:
     derived: false
     value: 'lambda shear_calibration_parameters__m1,shear_calibration_parameters__m2,shear_calibration_parameters__m3,shear_calibration_parameters__m4:

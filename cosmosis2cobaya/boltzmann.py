@@ -24,6 +24,8 @@ class boltzmann(Theory):
     # the followings make sense only if same_k_grid = True
     nk = 200
     kmax = 10. # 1/Mpc
+    want_chistar = False
+    want_zstar = False
 
     def initialize(self):
         if self.zmax_background is None:
@@ -39,13 +41,11 @@ class boltzmann(Theory):
             'H0': None,
             'omegam': None,
             'comoving_radial_distance': {'z': self.z_background},
-            ## CLASS
-            # 'conformal_age': None,
-            # 'tau_rec': None,
-            ## CAMB
-            "CAMBdata": None,
-            'zstar': None
         }
+        if self.want_zstar:
+            ret['zstar'] = None
+        if self.want_chistar:
+            ret['CAMBdata'] = None
         if self.same_k_grid:
             self.Pk_interpolator_z = np.concatenate((
                 np.linspace(self.zmin, self.zmid, self.nz_mid, endpoint=False),
@@ -89,10 +89,12 @@ class boltzmann(Theory):
         block['distances', 'a'] = 1/(self.z_background+1)
         block['distances', 'd_c'] = self.provider.get_comoving_radial_distance(self.z_background)
         block['distances', 'd_m'] = block['distances', 'd_c'] # flat
-        block['distances', 'zstar'] = params_values_dict['zstar']
+        if self.want_zstar:
+            block['distances', 'zstar'] = params_values_dict['zstar']
 
-        CAMBdata = self.provider.get_CAMBdata()
-        block['distances', 'CHISTAR'] = CAMBdata.conformal_time(0) - CAMBdata.tau_maxvis
+        if self.want_chistar:
+            CAMBdata = self.provider.get_CAMBdata()
+            block['distances', 'CHISTAR'] = CAMBdata.conformal_time(0) - CAMBdata.tau_maxvis
 
         if self.same_k_grid:
             z = self.Pk_interpolator_z

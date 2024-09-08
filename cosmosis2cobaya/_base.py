@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     pass
 
 class base(Theory):
-    version = '0.2'
+    version = '0.3'
     root_directory: Optional[str] = None
     ini_path: Optional[str] = None
     renames_input = {}

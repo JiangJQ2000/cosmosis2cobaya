@@ -142,8 +142,12 @@ params:
       min: -5.0
     ref: 0.0
   # intrinsic_alignment_parameters__a2: 0.0
-  intrinsic_alignment_parameters__a2_des: 0.0
-  intrinsic_alignment_parameters__a2_kids: 0.0
+  intrinsic_alignment_parameters__a2_des:
+    value: 0.0
+    drop: true
+  intrinsic_alignment_parameters__a2_kids:
+    value: 0.0
+    drop: true
   # intrinsic_alignment_parameters__alpha1: 0.0
   intrinsic_alignment_parameters__alpha1_des:
     drop: true
@@ -158,12 +162,22 @@ params:
       min: -5.0
     ref: 0.0
   # intrinsic_alignment_parameters__alpha2: 0.0
-  intrinsic_alignment_parameters__alpha2_des: 0.0
-  intrinsic_alignment_parameters__alpha2_kids: 0.0
+  intrinsic_alignment_parameters__alpha2_des:
+    value: 0.0
+    drop: true
+  intrinsic_alignment_parameters__alpha2_kids:
+    value: 0.0
+    drop: true
   # intrinsic_alignment_parameters__bias_ta: 0.0
-  intrinsic_alignment_parameters__bias_ta_des: 0.0
-  intrinsic_alignment_parameters__bias_ta_kids: 0.0
-  intrinsic_alignment_parameters__z_piv: 0.62
+  intrinsic_alignment_parameters__bias_ta_des:
+    value: 0.0
+    drop: true
+  intrinsic_alignment_parameters__bias_ta_kids:
+    value: 0.0
+    drop: true
+  intrinsic_alignment_parameters__z_piv:
+    value: 0.62
+    drop: true
   nofz_shifts_kids:
     derived: false
     value: 'lambda nofz_shifts_kids__uncorr_bias_1,nofz_shifts_kids__uncorr_bias_2,nofz_shifts_kids__uncorr_bias_3,nofz_shifts_kids__uncorr_bias_4,nofz_shifts_kids__uncorr_bias_5:
