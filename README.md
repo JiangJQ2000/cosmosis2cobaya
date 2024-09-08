@@ -6,7 +6,7 @@ Utilize CosmoSIS modules in cobaya.
 
 ### Installation
 
-- Make sure you have installed python>=3.9, [CosmoSIS](https://github.com/joezuntz/cosmosis) and [cosmosis-standard-library](https://github.com/joezuntz/cosmosis-standard-library) properly.
+- Make sure you have installed python>=3.9, [CosmoSIS](https://github.com/joezuntz/cosmosis) and [cosmosis-standard-library](https://github.com/joezuntz/cosmosis-standard-library) properly [^1].
 
 - Install cosmosis2cobaya with `pip install cosmosis2cobaya`.
 
@@ -20,6 +20,9 @@ Alternatively, if you have `python-dotenv` installed, you can set them in your `
 - `cobaya-run XXXXX.yaml`
 
 If it works well, you can modify these yaml files to what you want.
+
+> [!NOTE]
+> We do not treat each dataset as a single likelihood in order to take full advantage of blocking for speedup.
 
 ## Advanced usage
 
@@ -119,3 +122,6 @@ python3 dot2yaml.py <dot file> <ini file>
 ```
 
 But it can go wrong when there are loops in the pipeline graph (e.g. des-y3_and_kids-1000) or the module name is duplicated with the data name (e.g. kids-1000).
+
+
+[^1]: https://github.com/JiangJQ2000/cosmosis2cobaya/blob/master/.github/workflows/test.yml provides an example of manual installation on a Debian-based system.

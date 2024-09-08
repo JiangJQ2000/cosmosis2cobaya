@@ -20,7 +20,7 @@ class boltzmann(Theory):
     zmax_logz = 1100.
     zmid = None
     nz_mid = None
-    same_k_grid = False # set True can make FAST-PT faster
+    same_k_grid = False # set True can make FAST-PT faster (due to different unit of k between cobaya and cosmoSIS)
     # the followings make sense only if same_k_grid = True
     nk = 200
     kmax = 10. # 1/Mpc

@@ -1,11 +1,13 @@
 stop_at_error: True
 timing: True
 theory:
+  # The order of components is not important in cobaya
   cosmosis2cobaya.boltzmann:
     zmax: 4.
     n_logz: 100
     zmax_logz: 1100.
-    same_k_grid: true  #
+    same_k_grid: true # set True can make FAST-PT faster
+    # the followings make sense only if same_k_grid = True
     nk: 400
     kmax: 100.
   cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
