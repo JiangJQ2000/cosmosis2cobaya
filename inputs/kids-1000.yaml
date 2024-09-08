@@ -112,42 +112,30 @@ params:
     latex: \sum m_\nu
   ns:
     prior:
-      min: 0.8
-      max: 1.2
-    ref:
-      dist: norm
-      loc: 0.965
-      scale: 0.004
+      min: 0.84
+      max: 1.1
+    ref: 0.9007697522848085
     proposal: 0.002
     latex: n_\mathrm{s}
   H0:
     prior:
-      min: 20
-      max: 100
-    ref:
-      dist: norm
-      loc: 67
-      scale: 2
+      min: 64
+      max: 82
+    ref: 76.66550530735352
     proposal: 2
     latex: H_0
   omegabh2:
     prior:
-      min: 0.005
-      max: 0.1
-    ref:
-      dist: norm
-      loc: 0.0224
-      scale: 0.0001
+      min: 0.019
+      max: 0.026
+    ref: 0.025939374402978773
     proposal: 0.0001
     latex: \Omega_\mathrm{b} h^2
   omegach2:
     prior:
-      min: 0.001
-      max: 0.99
-    ref:
-      dist: norm
-      loc: 0.12
-      scale: 0.001
+      min: 0.051
+      max: 0.255
+    ref: 0.11812972217650827
     proposal: 0.0005
     latex: \Omega_\mathrm{c} h^2
   omegam:
@@ -170,14 +158,7 @@ params:
   YHe:
     latex: Y_\mathrm{P}
   tau:
-    prior:
-      min: 0.01
-      max: 0.8
-    ref:
-      dist: norm
-      loc: 0.055
-      scale: 0.006
-    proposal: 0.003
+    value: 0.0697186
     latex: \tau_\mathrm{reio}
   zrei:
     latex: z_\mathrm{re}
@@ -236,20 +217,4 @@ sampler:
   # mcmc:
   #   covmat: auto
   evaluate:
-    override:
-      nofz_shifts_kids__uncorr_bias_1: 0
-      nofz_shifts_kids__uncorr_bias_2: -0.181
-      nofz_shifts_kids__uncorr_bias_3: -1.11
-      nofz_shifts_kids__uncorr_bias_4: -1.395
-      nofz_shifts_kids__uncorr_bias_5: 1.265
-      intrinsic_alignment_parameters__a1: 0
-      intrinsic_alignment_parameters__alpha1: 0
-      HMCode_logT_AGN: 7.8
-      omegach2: 0.11812972217650827
-      omegabh2: 0.025939374402978773
-      H0: 76.66550530735352
-      ns: 0.9007697522848085
-      S_8: 0.7567464875805479
-      mnu: 0.07740741
-      tau: 0.0697186
 output: chains/kids-1000

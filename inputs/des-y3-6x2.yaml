@@ -5,7 +5,7 @@ theory:
     zmax: 4.
     n_logz: 100
     zmax_logz: 1100.
-    same_k_grid: true
+    same_k_grid: true  #
     nk: 400
     kmax: 100.
   cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
@@ -219,9 +219,15 @@ theory:
     renames_output:
       sigma_crit_inv_lens_source: sigma_crit_inv_lens_source__after__add_point_mass
   camb:
+    path: global
     extra_args:
       num_massive_neutrinos: 3
+      AccuracyBoost: 1.1
       halofit_version: takahashi
+      # These parameters are only intended to match the behavior of CAMB in cosmosSIS (mode=all), which will slightly affect the results.
+      Want_CMB: True
+      WantCls: True
+      max_l: 2650  # lmax=2500 + lens_margin=150
 likelihood:
   cosmosis2cobaya.likelihood.2pt.2pt_point_mass.2pt_point_mass.TwoPt_point_mass:
     renames_input:
@@ -265,7 +271,7 @@ params:
       max: 0.07
     ref: 0.048
     proposal: 0.0001
-    latex: \Omega_\mathrm{b} h^2
+    latex: \Omega_\mathrm{b}
   omegabh2:
     value: 'lambda omegab, H0: omegab*(H0/100)**2'
     latex: \Omega_\mathrm{b} h^2
