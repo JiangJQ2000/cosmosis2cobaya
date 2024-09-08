@@ -15,24 +15,25 @@ theory:
     renames_input:
       matter_power_lin: matter_power_lin__0
       matter_power_nl: matter_power_nl__0
-  cosmosis2cobaya.correlated_dz_priors:
+  cosmosis2cobaya.number_density.correlated_priors.correlated_priors.correlated_dz_priors:
     renames_output:
       nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
-  cosmosis2cobaya.fits_nz_kids:
-  cosmosis2cobaya.photoz_bias_kids:
+  cosmosis2cobaya.number_density.load_nz_fits.load_nz_fits.fits_nz_kids:
+  cosmosis2cobaya.number_density.photoz_bias.photoz_bias.photoz_bias_kids:
     renames_input:
       nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
     renames_output:
       nz_source_kids: nz_source_kids__1
-  cosmosis2cobaya.fast_pt:
-  cosmosis2cobaya.IA:
-  cosmosis2cobaya.pk_to_cl_kids:
+  cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
+  cosmosis2cobaya.intrinsic_alignments.tatt.tatt_interface.IA:
+  cosmosis2cobaya.structure.projection.project_2d.pk_to_cl_kids:
     renames_input:
       nz_source_kids: nz_source_kids__1
-  cosmosis2cobaya.add_intrinsic:
+  cosmosis2cobaya.shear.add_intrinsic.add_intrinsic:
+    want_intrinsic_intrinsic_bb: False
     renames_output:
       shear_cl: shear_cl__1
-  cosmosis2cobaya.cosebis:
+  cosmosis2cobaya.shear.cosebis.cl_to_cosebis.cl_to_cosebis_interface.cosebis:
     renames_input:
       shear_cl: shear_cl__1
   camb:
@@ -41,7 +42,7 @@ theory:
       halofit_version: mead2020_feedback
       neutrino_hierarchy: normal
 likelihood:
-  cosmosis2cobaya.cosebis_like:
+  cosmosis2cobaya.likelihood.2pt.cosebis.simple_like.cosebis_like:
 params:
   _cosmosis2cobaya._dummy: -8848
   intrinsic_alignment_parameters:

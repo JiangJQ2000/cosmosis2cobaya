@@ -16,3 +16,6 @@ class tatt_interface(base):
 
 class IA(tatt_interface):
     pass
+
+class IA2(tatt_interface):
+    name = 'IA'

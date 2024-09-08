@@ -23,8 +23,10 @@ class TwoPointLikelihood(base_Likelihood):
             section += suffix
             ret.append(section)
         
-        if (lkl.do_smallscale_marg) or (lkl.do_pm_sigcritinv and lkl.do_pm_marg):
-            ret.append(lkl.sigma_crit_inv_section)
+        if lkl.do_pm_marg or lkl.do_smallscale_marg:
+            if lkl.gammat_name in lkl.used_names:
+                if (lkl.do_smallscale_marg) or (lkl.do_pm_sigcritinv and lkl.do_pm_marg):
+                    ret.append(lkl.sigma_crit_inv_section)
 
         return ret
     

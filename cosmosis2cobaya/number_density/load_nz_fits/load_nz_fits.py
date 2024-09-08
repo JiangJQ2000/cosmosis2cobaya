@@ -11,3 +11,9 @@ class load_nz_fits(base):
 
 class fits_nz(load_nz_fits):
     pass
+
+class fits_nz_kids(load_nz_fits):
+    pass
+
+class fits_nz_des(load_nz_fits):
+    pass

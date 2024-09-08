@@ -15,24 +15,24 @@ theory:
     renames_input:
       matter_power_lin: matter_power_lin__0
       matter_power_nl: matter_power_nl__0
-  cosmosis2cobaya.fits_nz_des:
-  cosmosis2cobaya.correlated_dz_priors:
+  cosmosis2cobaya.number_density.load_nz_fits.load_nz_fits.fits_nz_des:
+  cosmosis2cobaya.number_density.correlated_priors.correlated_priors.correlated_dz_priors:
     renames_output:
       nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
-  cosmosis2cobaya.photoz_bias_des:
+  cosmosis2cobaya.number_density.photoz_bias.photoz_bias.photoz_bias_des:
     renames_output:
       nz_source_des: nz_source_des__after__photoz_bias_des
-  cosmosis2cobaya.photoz_bias_kids:
+  cosmosis2cobaya.number_density.photoz_bias.photoz_bias.photoz_bias_kids:
     renames_input:
       nofz_shifts_kids: nofz_shifts_kids__after__correlated_dz_priors
     renames_output:
       nz_source_kids: nz_source_kids__1
-  cosmosis2cobaya.fits_nz_kids:
-  cosmosis2cobaya.fast_pt:
-  cosmosis2cobaya.choose_des_ia:
+  cosmosis2cobaya.number_density.load_nz_fits.load_nz_fits.fits_nz_kids:
+  cosmosis2cobaya.structure.fast_pt.fast_pt_interface.fast_pt:
+  cosmosis2cobaya.intrinsic_alignments.choose_ia.choose_ia_params.choose_des_ia:
     renames_output:
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__des
-  cosmosis2cobaya.IA: # DES
+  cosmosis2cobaya.intrinsic_alignments.tatt.tatt_interface.IA: # DES
     renames_input:
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__des
     renames_output:
@@ -41,7 +41,7 @@ theory:
       intrinsic_power_bb: intrinsic_power_bb__des
       matter_intrinsic_power: matter_intrinsic_power__des
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__des__after__IA
-  cosmosis2cobaya.pk_to_cl_des:
+  cosmosis2cobaya.structure.projection.project_2d.pk_to_cl_des:
     renames_input:
       intrinsic_power: intrinsic_power__des
       intrinsic_power_ee: intrinsic_power_ee__des
@@ -53,7 +53,8 @@ theory:
       shear_cl_ii: shear_cl_ii__des
       shear_cl_bb: shear_cl_bb__des
       shear_cl: shear_cl__des
-  cosmosis2cobaya.add_intrinsic:
+  cosmosis2cobaya.shear.add_intrinsic.add_intrinsic:
+    want_intrinsic_intrinsic_bb: False
     renames_input:
       shear_cl_gi: shear_cl_gi__des
       shear_cl_ii: shear_cl_ii__des
@@ -61,21 +62,21 @@ theory:
       shear_cl: shear_cl__des
     renames_output:
       shear_cl: shear_cl__des_1
-  cosmosis2cobaya.2pt_shear.cl_to_xi_interface:
+  cosmosis2cobaya.shear.cl_to_xi_fullsky.cl_to_xi_interface.TwoPt_shear:
     renames_input:
       shear_cl: shear_cl__des_1
       shear_cl_bb: shear_cl_bb__des
-  cosmosis2cobaya.shear_m_bias:
+  cosmosis2cobaya.shear.shear_bias.shear_m_bias.shear_m_bias:
     do_auto: True
     do_cross: False
     do_cmbcross: False
     renames_output:
       shear_xi_minus: shear_xi_minus__after__shear_m_bias
       shear_xi_plus: shear_xi_plus__after__shear_m_bias
-  cosmosis2cobaya.choose_kids_ia:
+  cosmosis2cobaya.intrinsic_alignments.choose_ia.choose_ia_params.choose_kids_ia:
     renames_output:
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids
-  cosmosis2cobaya.IA.IA: # KiDS, trick to load second one
+  cosmosis2cobaya.intrinsic_alignments.tatt.tatt_interface.IA2: # KiDS, load second IA (IA2.name = 'IA')
     renames_input:
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids
     renames_output:
@@ -84,7 +85,7 @@ theory:
       intrinsic_power_bb: intrinsic_power_bb__kids
       matter_intrinsic_power: matter_intrinsic_power__kids
       intrinsic_alignment_parameters: intrinsic_alignment_parameters__kids__after__IA
-  cosmosis2cobaya.pk_to_cl_kids:
+  cosmosis2cobaya.structure.projection.project_2d.pk_to_cl_kids:
     renames_input:
       nz_source_kids: nz_source_kids__1
       intrinsic_power: intrinsic_power__kids
@@ -96,7 +97,8 @@ theory:
       shear_cl_ii: shear_cl_ii__kids
       shear_cl_bb: shear_cl_bb__kids
       shear_cl: shear_cl__kids
-  cosmosis2cobaya.add_intrinsic.add_intrinsic:
+  cosmosis2cobaya.shear.add_intrinsic.add_intrinsic.add_intrinsic: # KiDS, another trick to load second one
+    want_intrinsic_intrinsic_bb: False
     renames_input:
       shear_cl_gi: shear_cl_gi__kids
       shear_cl_ii: shear_cl_ii__kids
@@ -104,7 +106,7 @@ theory:
       shear_cl: shear_cl__kids
     renames_output:
       shear_cl: shear_cl__kids_1
-  cosmosis2cobaya.cosebis:
+  cosmosis2cobaya.shear.cosebis.cl_to_cosebis.cl_to_cosebis_interface.cosebis:
     renames_input:
       shear_cl: shear_cl__kids_1
   camb:
@@ -113,11 +115,11 @@ theory:
       halofit_version: mead2020_feedback
       neutrino_hierarchy: normal
 likelihood:
-  cosmosis2cobaya.2pt_like.TwoPointLikelihood:
+  cosmosis2cobaya.likelihood.2pt.2pt_point_mass.2pt_point_mass.TwoPt_point_mass:
     renames_input:
       shear_xi_minus: shear_xi_minus__after__shear_m_bias
       shear_xi_plus: shear_xi_plus__after__shear_m_bias
-  cosmosis2cobaya.cosebis_like:
+  cosmosis2cobaya.likelihood.2pt.cosebis.simple_like.cosebis_like:
 params:
   _cosmosis2cobaya._dummy: -8848
   intrinsic_alignment_parameters:

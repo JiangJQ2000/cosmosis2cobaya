@@ -16,10 +16,19 @@ class photoz_bias(base):
         pz = config['sample']
         interpolation = config['interpolation']
         biases = config['bias_section']
-        return [pz,]
+        ret = [pz,]
+        if config["output_deltaz"]:
+            ret.append(config["output_deltaz_section_name"])
+        return ret
 
 class source_photoz_bias(photoz_bias):
     pass
 
 class lens_photoz_bias(photoz_bias):
+    pass
+
+class photoz_bias_kids(photoz_bias):
+    pass
+
+class photoz_bias_des(photoz_bias):
     pass

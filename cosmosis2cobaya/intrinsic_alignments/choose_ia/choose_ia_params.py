@@ -1,6 +1,6 @@
-from ._base import base
+from cosmosis2cobaya._base import base
 
-class choose_kids_ia(base):
+class choose_ia_params(base):
 
     def cosmosis_datablock_inputs(self):
         return [
@@ -11,3 +11,9 @@ class choose_kids_ia(base):
         return [
             'intrinsic_alignment_parameters',
         ]
+
+class choose_des_ia(choose_ia_params):
+    pass
+
+class choose_kids_ia(choose_ia_params):
+    pass
