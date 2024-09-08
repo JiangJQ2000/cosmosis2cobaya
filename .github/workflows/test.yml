@@ -1,0 +1,67 @@
+on: [push, pull_request]
+
+jobs:
+    test:
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.11'
+            
+            - name: Installation
+              run: |
+                sudo apt-get install gfortran libopenblas-dev libgsl-dev libfftw3-dev libcfitsio-dev -y
+                export GSL_INC=/usr/include
+                export GSL_LIB=/usr/lib/x86_64-linux-gnu
+                export CFITSIO_INC=/usr/include
+                export CFITSIO_LIB=/usr/lib/x86_64-linux-gnu
+                export CFITSIO_INCPATH=/usr/include
+                export CFITSIO_LIBPATH=/usr/lib/x86_64-linux-gnu
+                export PYTHON=python3
+                export LAPACK_LIB=/usr/lib/
+                export LAPACK_LINK="-L/usr/lib/x86_64-linux-gnu -llapack -lblas"
+
+                pip install 'scipy<1.12' 'cython<3' 'git+https://github.com/JoeMcEwen/FAST-PT.git' python-dotenv astropy
+                pip install cosmosis cobaya camb
+                git clone https://github.com/joezuntz/cosmosis-standard-library ../cosmosis-standard-library
+
+                cobaya-install classy -p ../cobaya_packages
+                rm ../cosmosis-standard-library/boltzmann/class/class_v3.2.0 -r
+                ln -s "$PWD/../cobaya_packages/code/classy" ../cosmosis-standard-library/boltzmann/class/class_v3.2.0
+
+                # export PATH="$PYTHON_PATH/bin:$PATH"
+                # curl -LO 'https://github.com/joezuntz/cosmosis/raw/main/bin/cosmosis-configure'
+                # source ./cosmosis-configure
+                source cosmosis-configure
+
+                cd ../cosmosis-standard-library
+                # fix
+                ln -s "$PWD/likelihood/2pt/twopoint.py" likelihood/2pt/cosebis/twopoint.py
+                make
+            
+            - name: des-y3-6x2
+              run: |
+                source cosmosis-configure
+                python3 test.py inputs/des-y3-6x2.yaml
+              env:
+                COSMOSIS_ROOT_DIRECTORY: ../cosmosis-standard-library
+                COSMOSIS_INI_PATH: ../cosmosis-standard-library/examples/des-y3-6x2.ini
+            
+            - name: kids-1000
+              run: |
+                source cosmosis-configure
+                python3 test.py inputs/kids-1000.yaml
+              env:
+                COSMOSIS_ROOT_DIRECTORY: ../cosmosis-standard-library
+                COSMOSIS_INI_PATH: ../cosmosis-standard-library/examples/kids-1000.ini
+            
+            - name: des-y3_and_kids-1000
+              run: |
+                source cosmosis-configure
+                python3 test.py inputs/des-y3_and_kids-1000.yaml
+              env:
+                COSMOSIS_ROOT_DIRECTORY: ../cosmosis-standard-library
+                COSMOSIS_INI_PATH: ../cosmosis-standard-library/examples/des-y3_and_kids-1000.ini
+

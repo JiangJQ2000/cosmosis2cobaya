@@ -15,7 +15,8 @@ cwd = os.getcwd()
 os.chdir(os.getenv('COSMOSIS_ROOT_DIRECTORY'))
 
 subprocess.run(
-    ['cosmosis', os.getenv('COSMOSIS_INI_PATH')]
+    ['cosmosis', os.getenv('COSMOSIS_INI_PATH')],
+    check=True
 )
 options = cosmosis.runtime.config.Inifile(os.getenv('COSMOSIS_INI_PATH'))
 save_dir = options.get("test", "save_dir")
