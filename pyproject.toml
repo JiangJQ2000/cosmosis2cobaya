@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cosmosis2cobaya"
-version = "0.3"
+version = "1.0"
 authors = [
   { name="Jun-Qian Jiang" },
 ]
@@ -19,6 +19,9 @@ dependencies = [
   "cosmosis",
   "cobaya>=3.5.1"
 ]
+readme = {file = "README.md", content-type = "text/markdown"}
 
-[tool.setuptools]
-packages = ["cosmosis2cobaya"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cosmosis2cobaya*"]

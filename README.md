@@ -2,6 +2,9 @@
 
 Utilize CosmoSIS modules in cobaya.
 
+It was used in
+* [A model-independent reconstruction of the matter power spectrum](https://arxiv.org/abs/2411.07082)
+
 ## Basic Usage
 
 ### Installation

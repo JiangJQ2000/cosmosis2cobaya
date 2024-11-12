@@ -27,9 +27,14 @@ jobs:
                 pip install cosmosis cobaya camb
                 git clone https://github.com/joezuntz/cosmosis-standard-library ../cosmosis-standard-library
 
-                cobaya-install classy -p ../cobaya_packages
+                # comment due to a bug introduced in https://github.com/lesgourg/class_public/commit/a23b70c6772d43ce9d1bedcb0c70987292e15476#diff-76ed074a9305c04054cdebb9e9aad2d818052b07091de1f20cad0bbac34ffb52R202
+                # cobaya-install classy -p ../cobaya_packages
+                git clone https://github.com/lesgourg/class_public.git ../class_public
+                cd ../class_public
+                git checkout cd3ff01f82028a35b330e1de3fa750ffd5a0bb2a
+                make
                 rm ../cosmosis-standard-library/boltzmann/class/class_v3.2.0 -r
-                ln -s "$PWD/../cobaya_packages/code/classy" ../cosmosis-standard-library/boltzmann/class/class_v3.2.0
+                ln -s "$PWD" ../cosmosis-standard-library/boltzmann/class/class_v3.2.0
 
                 # export PATH="$PYTHON_PATH/bin:$PATH"
                 # curl -LO 'https://github.com/joezuntz/cosmosis/raw/main/bin/cosmosis-configure'
