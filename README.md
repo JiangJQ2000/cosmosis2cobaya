@@ -15,7 +15,7 @@ It was used in
 
 ### Run the preconfigured weak lensing and galaxy clustering likelihoods
 
-In `example/`, there are some preconfigured weak lensing and galaxy clustering yaml file you can start with.
+In `inputs/`, there are some preconfigured weak lensing and galaxy clustering yaml file you can start with.
 
 - Set environment variable `COSMOSIS_ROOT_DIRECTORY` to the path of cosmosis-standard-library and set `COSMOSIS_INI_PATH` to the CosmoSIS ini file related to your run (We need it to load the configuration of the CosmoSIS module).
 Alternatively, if you have `python-dotenv` installed, you can set them in your `.env` file.
