@@ -110,10 +110,10 @@ class base(Theory):
                 _, sec, name, key = section.split('.')
                 state[section] = data_package.get_metadata(sec, name, key)
             self.log.debug("Section %s written to cobaya as %s", section, self.renames_output.get(section, section).lower())
-            state[self.renames_output.get(section.lower(), section).lower()] = {k[1]: data_package[*k] for k in data_package.keys(section=section)}
+            state[self.renames_output.get(section.lower(), section).lower()] = {name: data_package[section, name] for (section, name) in data_package.keys(section=section)}
         
         if isinstance(self, base_Likelihood):
-            state['logp'] = sum(data_package[*k] for k in data_package.keys(section='likelihoods'))
+            state['logp'] = sum(data_package[section, name] for (section, name) in data_package.keys(section='likelihoods'))
        
     
     def close(self):

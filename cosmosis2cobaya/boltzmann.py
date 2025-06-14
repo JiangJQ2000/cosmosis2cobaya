@@ -111,6 +111,6 @@ class boltzmann(Theory):
             block.put_grid('matter_power_lin', "z", z, "k_h", k/h, "P_k", Pk*h**3)
         
         for section in block.sections():
-            state[self.renames_output.get(section, section).lower()] = {k[1]: block[*k] for k in block.keys(section=section)}
+            state[self.renames_output.get(section, section).lower()] = {name: block[section, name] for (section, name) in block.keys(section=section)}
         
 
